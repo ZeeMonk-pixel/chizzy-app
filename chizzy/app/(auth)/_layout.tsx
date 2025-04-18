@@ -19,6 +19,9 @@ const AuthLayout = (props: Props) => {
         <Stack.Screen name="signup-choice" options={{ headerShown: false }} />
         <Stack.Screen name="signin" options={{ headerShown: false }} />
         <Stack.Screen name="continue-signup" options={{ headerShown: false }} />
+        <Stack.Screen name="passenger" options={{ headerShown: false }} />
+        <Stack.Screen name="instant-not" options={{ headerShown: false }} />
+        <Stack.Screen name="complete-account" options={{ headerShown: false }} />
       </Stack>
     </>
   );

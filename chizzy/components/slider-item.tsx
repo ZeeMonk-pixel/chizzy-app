@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback,  useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Btn } from "./btn";
 import { useRouter } from "expo-router";
@@ -137,6 +137,10 @@ const styles = StyleSheet.create({
   btnContainer: {
     justifyContent: "center",
     flexDirection: "row",
+    width: 343,
+    // borderColor: "red",
+    // borderWidth: 2,
+    marginHorizontal: "auto"
   },
   loginCont: {
     flexDirection: "row",

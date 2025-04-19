@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     label: {
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_600SemiBold',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 12,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#E1E1E1',
         borderRadius: 8,
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_500Medium',
         fontStyle: 'normal',
         fontWeight: 500,
         fontSize: 16,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     inputPhone: {
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_500Medium',
         fontStyle: 'normal',
         fontWeight: 500,
         fontSize: 16,

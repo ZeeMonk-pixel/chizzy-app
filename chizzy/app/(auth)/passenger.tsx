@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginVertical: 45,
   },
   passCusText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 600,
     fontSize: 16,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   passFormHeadText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     color: "#181619",
   },
   passFormDescText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: 16,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     gap: 30,
   },
   terms: {
-    fontFamily: 'Inter',
+    fontFamily: 'Inter_400Regular',
     fontStyle: 'normal',
     fontWeight: 400,
     fontSize: 16,

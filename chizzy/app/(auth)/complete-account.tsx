@@ -2,10 +2,14 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Btn } from "@/components/btn";
+import { useRouter } from "expo-router";
 
 type Props = {};
 
 const CompleteAccount = (props: Props) => {
+
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.completeCont}>
       <Image
@@ -19,7 +23,7 @@ const CompleteAccount = (props: Props) => {
         </Text>
       </View>
       <View style={styles.completeBtn}>
-        <Btn text="Let's go" />
+        <Btn text="Let's go" onPress={() => router.push("/(tabs)/home")} />
       </View>
     </SafeAreaView>
   );
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   headText: {
-    fontFamily: 'Inter',
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     color: "#181619",
   },
   bodyText: {
-    fontFamily: 'Inter',
+    fontFamily: 'Inter_400Regular',
     fontStyle: 'normal',
     fontWeight: 400,
     fontSize: 16,

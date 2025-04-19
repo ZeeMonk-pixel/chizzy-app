@@ -1,26 +1,27 @@
-import { SplashScreen, Stack } from "expo-router";
-import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_900Black, useFonts } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [fontsLoaded, error] = useFonts({
-    Inter: require("../assets/fonts/Inter-VariableFont_opsz,wght.ttf"),
+  const [loaded, error] = useFonts({
+    Inter_600SemiBold, Inter_400Regular, Inter_500Medium, Inter_700Bold
   });
 
   useEffect(() => {
-    if (error) throw error;
-
-    if (fontsLoaded) {
+    if (loaded || error) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, error]);
+  }, [loaded, error]);
 
-  if (!fontsLoaded && !error) {
+  if (!loaded && !error) {
     return null;
   }
+
+  
 
   return (
     <>
@@ -39,6 +40,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </>
   );

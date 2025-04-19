@@ -3,14 +3,14 @@ import React from 'react'
 
 type Props = {}
 
-const Home = (props: Props) => {
+const RideCard = (props: Props) => {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>RideCard</Text>
     </View>
   )
 }
 
-export default Home
+export default RideCard
 
 const styles = StyleSheet.create({})

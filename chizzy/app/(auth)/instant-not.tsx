@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   insTextHead: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     color: "#181619",
   },
   insTextBody: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: 16,
@@ -89,9 +89,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   login: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_500Medium',
     fontStyle: "normal",
-    fontWeight: 700,
+    // fontWeight: 600,
     fontSize: 16,
     lineHeight: 24,
     color: "#18181B",

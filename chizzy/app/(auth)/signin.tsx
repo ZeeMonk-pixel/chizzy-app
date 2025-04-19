@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   signupText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   btmText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 16,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     color: "#5A5A5A",
   },
   spanText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 16,

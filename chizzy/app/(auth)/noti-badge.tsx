@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         borderRadius: 14,
     },
     notiHeadText: {
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_600SemiBold',
         fontStyle: "normal",
         fontWeight: 700,
         fontSize: 17,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         paddingTop: 20
     },
     notiBtmText: {
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_400Regular',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 13,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10
     },
     notiBtnText: {
-        fontFamily: 'Inter',
+        fontFamily: 'Inter_600SemiBold',
         fontStyle: 'normal',
         fontWeight: 600,
         fontSize: 17,

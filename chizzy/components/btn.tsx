@@ -6,27 +6,32 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   text: string;
   onPress?: (id?: number) => void;
   logo?: ImageSourcePropType;
   disabled?: boolean;
-  id?: number
+  id?: number;
+  iconName?: string;
+  iconSize?: number;
+  iconColor?: string
 };
 
 
-export const Btn = ({ text, onPress, disabled, id }: Props) => {
+export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize }: Props) => {
   return (
-    <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1'}]} onPress={() => onPress?.(id)}>
+    <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1'}]} onPress={() => !disabled && onPress?.(id)}>
+      <Ionicons name={iconName} size={iconSize} color={iconColor} />
       <Text style={styles.btnText}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
-export const BtnTrans = ({ text, onPress, logo, id }: Props) => {
+export const BtnTrans = ({ text, onPress, logo,disabled, id }: Props) => {
   return (
-    <TouchableOpacity style={styles.btnTsCont} onPress={() => onPress?.(id)}>
+    <TouchableOpacity style={[styles.btnTsCont]} onPress={() => !disabled && onPress?.(id)}>
       <Image source={logo} />
       <Text style={styles.btnTsText}>{text}</Text>
     </TouchableOpacity>
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   btnText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 600,
     fontSize: 16,
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnTsText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: 16,

@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     height: 419,
   },
   title: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   text: {
     width: "100%",
     paddingHorizontal: 15,
-    fontFamily: "Inter",
+    fontFamily: 'Inter_400Regular',
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: 16,
@@ -148,9 +148,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   login: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: 16,
     lineHeight: 24,
     color: "#18181B",

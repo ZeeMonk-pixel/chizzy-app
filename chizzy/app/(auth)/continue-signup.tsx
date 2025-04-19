@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     // alignItems: "center"
   },
   continueText: {
-    fontFamily: "Inter",
+    fontFamily: 'Inter_600SemiBold',
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,

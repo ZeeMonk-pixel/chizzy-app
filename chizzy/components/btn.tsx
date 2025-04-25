@@ -23,7 +23,7 @@ type Props = {
 export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize }: Props) => {
   return (
     <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1'}]} onPress={() => !disabled && onPress?.(id)}>
-      <Ionicons name={iconName} size={iconSize} color={iconColor} />
+      <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />
       <Text style={styles.btnText}>{text}</Text>
     </TouchableOpacity>
   );

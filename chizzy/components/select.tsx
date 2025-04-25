@@ -44,9 +44,9 @@ export default function Select({
 
   const SingleItem = ({ item }: SingleItemProps) => {
     return (
-      <TouchableOpacity style={styles.selectOptions} onPress={() => handleSelect(item.value)}>
-        <Text style={styles.selectOptionsFrom}>{item.from}</Text>
-        <Text style={styles.selectOptionsTo}>{item.to}</Text>
+      <TouchableOpacity style={styles.selectOptions} onPress={() => handleSelect(item?.value)}>
+        <Text style={styles.selectOptionsFrom}>{item?.from}</Text>
+        <Text style={styles.selectOptionsTo}>{item?.to}</Text>
       </TouchableOpacity>
     );
   };
@@ -78,7 +78,7 @@ export default function Select({
           showsVerticalScrollIndicator={false}
             data={options}
             renderItem={({ item }) => <SingleItem item={item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item?.id}
             style={styles.optionsList}
           />
         </View>

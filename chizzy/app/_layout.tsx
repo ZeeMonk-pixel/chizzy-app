@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { StatusBar } from "react-native";
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_900Black, useFonts } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
+import { RideProvider } from "./context/context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -25,6 +26,7 @@ export default function RootLayout() {
 
   return (
     <>
+    <RideProvider>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -42,6 +44,7 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
+    </RideProvider>
     </>
   );
 }

@@ -1,9 +1,14 @@
-import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
 
 type Props = {
     label?: string
-    placeholder?: string
+    placeholder?: string;
+}
+type CustomCheckProps = {
+    checked: boolean;
+    setChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const { width } = Dimensions.get("window");
 
@@ -41,6 +46,18 @@ export const Overlay = (props: Props) => {
     <View style={styles.overlay}></View>
   )
 }
+
+export const CustomCheckbox = ({checked, setChecked}: CustomCheckProps) => {
+  return (
+    <Pressable onPress={() => setChecked(!checked)} style={styles.checkboxContainer}>
+      <Ionicons
+        name={checked ? 'checkbox' : 'square-outline'}
+        size={24}
+        color={checked ? '#8441F1' : '#D0D0D0'} 
+      />
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
     inputCont: {
@@ -111,5 +128,11 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         zIndex: 3
+    },
+    checkboxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+      padding: 5,
     },
 })

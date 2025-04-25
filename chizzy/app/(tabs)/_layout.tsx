@@ -7,15 +7,13 @@ type Props = {};
 
 const TabsLayout = (props: Props) => {
   return (
-    
-   
-         <Tabs
+    <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "#8441F1",
         tabBarInactiveTintColor: "#D0D0D0",
         tabBarLabelStyle: {
-            fontFamily: "Inter_500Medium"
+          fontFamily: "Inter_500Medium",
         },
         tabBarStyle: {
           backgroundColor: "#FFFFFF",
@@ -70,7 +68,6 @@ const TabsLayout = (props: Props) => {
           ),
         }}
       />
-   
     </Tabs>
   );
 };

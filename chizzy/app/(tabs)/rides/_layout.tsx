@@ -4,7 +4,7 @@ import { StatusBar } from "react-native";
 
 type Props = {};
 
-const WalletLayout = (props: Props) => {
+const RidesLayout = (props: Props) => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -17,10 +17,9 @@ const WalletLayout = (props: Props) => {
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="payment-receipt" options={{ headerShown: false }} />
       </Stack>
     </>
   );
 };
 
-export default WalletLayout;
+export default RidesLayout;

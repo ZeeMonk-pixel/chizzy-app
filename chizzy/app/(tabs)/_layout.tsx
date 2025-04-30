@@ -2,6 +2,7 @@ import { Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type Props = {};
 
@@ -47,13 +48,13 @@ const TabsLayout = (props: Props) => {
         }}
       />
       <Tabs.Screen
-        name="history"
+        name="rides"
         options={{
-          title: "History",
+          title: "Rides",
           headerShown: false,
-          tabBarLabel: "History",
+          tabBarLabel: "Rides",
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={"document"} size={24} color={color} />
+            <MaterialCommunityIcons name="steering" size={24} color={color} />
           ),
         }}
       />

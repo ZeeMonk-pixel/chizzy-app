@@ -1,24 +1,31 @@
-import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, KeyboardTypeOptions, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 
 type Props = {
     label?: string
     placeholder?: string;
+    type?: string;
 }
 type CustomCheckProps = {
     checked: boolean;
     setChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+type OverlayProps = {
+  onPress?: () => void;
+}
+
 const { width } = Dimensions.get("window");
 
-export const CustomInput = ({label, placeholder}: Props) => {
+export const CustomInput = ({label, placeholder, type}: Props) => {
   return (
     <View style={styles.inputCont}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         style={styles.input}
         placeholder={placeholder}
+        keyboardType={type as KeyboardTypeOptions}
         placeholderTextColor="#E0DBD5"
       />
     </View>
@@ -41,9 +48,9 @@ export const CustomPhoneInput = ({label, placeholder}: Props) => {
     </View>
   )
 }
-export const Overlay = (props: Props) => {
+export const Overlay = ({onPress}: OverlayProps) => {
   return (
-    <View style={styles.overlay}></View>
+    <TouchableOpacity onPress={onPress} style={styles.overlay}></TouchableOpacity>
   )
 }
 
@@ -97,7 +104,9 @@ const styles = StyleSheet.create({
     },
     inputPhoneCont: {
         position: 'relative',
-        paddingVertical: 6,
+        // paddingVertical: 10,
+        height: 64,
+        justifyContent: 'center',
         paddingHorizontal: 24,
         gap: 8,
         borderWidth: 1,

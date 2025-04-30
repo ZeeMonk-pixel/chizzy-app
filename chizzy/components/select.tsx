@@ -5,15 +5,15 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export type SelectOption = {
   id: string;
-  from: string;
-  to: string;
+  from?: string;
+  to?: string;
+  label?: string;
   value: string;
 };
 type SingleItemProps = {
@@ -45,16 +45,19 @@ export default function Select({
   const SingleItem = ({ item }: SingleItemProps) => {
     return (
       <TouchableOpacity style={styles.selectOptions} onPress={() => handleSelect(item?.value)}>
-        <Text style={styles.selectOptionsFrom}>{item?.from}</Text>
-        <Text style={styles.selectOptionsTo}>{item?.to}</Text>
+        {item?.from && <Text style={styles.selectOptionsFrom}>{item?.from}</Text>}
+        {item?.label && <Text style={styles.selectOptionsFrom}>{item?.label}</Text>}
+        {item?.to && <Text style={styles.selectOptionsTo}>{item?.to}</Text>}
       </TouchableOpacity>
     );
   };
+  const hasLabel = options.some(item => !!item.label);
+  
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.placeholderCont} onPress={clickMenu}>
-        <Text style={styles.placeholder}>{!selectedValue ? placeholder : selectedValue}</Text>
+      <TouchableOpacity style={[styles.placeholderCont, hasLabel && styles.labelPlaceHolderCont]} onPress={clickMenu}>
+        <Text style={[styles.placeholder, hasLabel && styles.labelPlaceholder]}>{!selectedValue ? placeholder : selectedValue}</Text>
         {!visible && (
           <Ionicons
             style={styles.icon}
@@ -73,7 +76,7 @@ export default function Select({
         )}
       </TouchableOpacity>
       {visible && (
-        <View style={styles.optionsView}>
+        <View style={[styles.optionsView, hasLabel && styles.labelOptionsView]}>
           <FlatList
           showsVerticalScrollIndicator={false}
             data={options}
@@ -93,6 +96,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     position: "relative",
   },
+  labelPlaceHolderCont: {
+    width: "100%",
+    borderColor: "#E1E1E1",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
   placeholderCont: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -103,6 +114,14 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
   },
+  labelPlaceholder: {
+    fontFamily: "Inter_400Regular",
+    fontStyle: "normal",
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#D0D0D0",
+  },
   placeholder: {
     fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
@@ -112,6 +131,10 @@ const styles = StyleSheet.create({
     color: "#3E4C6E",
   },
   icon: {},
+  labelOptionsView: {
+    height: 'auto',
+    width: '80%'
+  },
   optionsView: {
     position: "absolute",
     width: 275,

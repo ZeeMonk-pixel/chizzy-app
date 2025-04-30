@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
 export type RideCardProps = {
@@ -13,9 +13,10 @@ export type RideCardProps = {
     status: string;
     id: string;
     departureTime?: string;
+    onPress?: (item: RideCardProps) => void;
 };
 
-const RideHistory = ({name, amount, from, to, checkIn, checkOut, date, seat, status, departureTime}: RideCardProps) => {
+const RideHistory = ({name, amount, from, to, checkIn, checkOut, date, seat, status, departureTime, onPress, id}: RideCardProps) => {
     // console.log(status);
 
   return (
@@ -25,7 +26,7 @@ const RideHistory = ({name, amount, from, to, checkIn, checkOut, date, seat, sta
         <Text style={styles.rideCardTopText}>{seat}</Text>
         <Text style={[styles.rideCardTopText, {color: status === 'Trip Successful' ? '#76D31A' : status === 'Ongoing' ? '#D31A1A' : status === 'Scheduled' ? '#8441F1' : '#D31A1A'}]}>{status}</Text>
       </View>
-      <View style={styles.rideCard}>
+      <TouchableOpacity style={styles.rideCard} onPress={() => onPress?.({ name, amount, from, to, checkIn, checkOut, date, seat, status, id, departureTime })}>
         <View style={styles.rideCardLeft}>
           <Text style={styles.rideCardName}>{name}</Text>
           <View style={styles.rideRouteCont}>
@@ -57,7 +58,7 @@ const RideHistory = ({name, amount, from, to, checkIn, checkOut, date, seat, sta
             <Text style={styles.rideRouteText2}>{departureTime}</Text>
           </View>}
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -16,15 +16,25 @@ type Props = {
   id?: number;
   iconName?: string;
   iconSize?: number;
-  iconColor?: string
+  iconColor?: string;
+  bgColor?: string;
+  color?: string;
 };
 
 
-export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize }: Props) => {
+export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color }: Props) => {
   return (
     <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1'}]} onPress={() => !disabled && onPress?.(id)}>
       <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />
       <Text style={styles.btnText}>{text}</Text>
+    </TouchableOpacity>
+  );
+};
+export const RedBtn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color }: Props) => {
+  return (
+    <TouchableOpacity style={[styles.btnContRed, {backgroundColor: disabled ? "#E1E1E1" : '#FFF5F5',}]} onPress={() => !disabled && onPress?.(id)}>
+      <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />
+      <Text style={[styles.btnRedText, {color: disabled ? 'white' : '#D31A1A'}]}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -50,6 +60,26 @@ const styles = StyleSheet.create({
     height: 56,
     backgroundColor: "#8441F1",
     borderRadius: 100,
+  },
+  btnContRed: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    gap: 8,
+    width: "100%",
+    height: 56,
+    backgroundColor: "#FFF5F5",
+    borderRadius: 100,
+  },
+  btnRedText: {
+    fontFamily: 'Inter_600SemiBold',
+    fontStyle: "normal",
+    fontWeight: 600,
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#D31A1A",
   },
   btnText: {
     fontFamily: 'Inter_600SemiBold',

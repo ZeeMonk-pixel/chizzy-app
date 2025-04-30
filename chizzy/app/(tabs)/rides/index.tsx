@@ -10,11 +10,14 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RideHistory, { RideCardProps } from "@/components/ride-history";
+import ViewTrip from "@/components/view-trip";
 
 type Props = {};
 
 const Rides = (props: Props) => {
   const [active, setActive] = useState("real");
+  const [showRide, setShowRide] = useState(false);
+  const [curRide, setCurRide] = useState<RideCardProps | undefined>();
 
   const curRideArr: RideCardProps[] = [
     {
@@ -92,6 +95,11 @@ const Rides = (props: Props) => {
     },
   ];
 
+  const clickTrip = (item: RideCardProps) => {
+    setShowRide(true);
+    setCurRide(item);
+  }
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -105,7 +113,7 @@ const Rides = (props: Props) => {
               styles.rideReal,
               active === "scheduled" && styles.inactiveReal,
             ]}
-            onPress={() => setActive("real")}
+            onPress={() => {setActive("real"); if(showRide){setShowRide(false)}}}
           >
             <Text
               style={[
@@ -118,7 +126,7 @@ const Rides = (props: Props) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.rideReal, active === "real" && styles.inactiveReal]}
-            onPress={() => setActive("scheduled")}
+            onPress={() => {setActive("scheduled"); if(showRide){setShowRide(false)}}}
           >
             <Text
               style={[
@@ -130,7 +138,7 @@ const Rides = (props: Props) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.rideHistCont}>
+        <View style={[styles.rideHistCont, {marginTop: active === 'real' &&  showRide ? 0 : 40}]}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={active === "real" ? curRideArr : rideHistArr}
@@ -147,10 +155,12 @@ const Rides = (props: Props) => {
                 checkIn={item?.checkIn}
                 departureTime={item?.departureTime}
                 checkOut={item?.checkOut}
+                onPress={() =>active === "real" && clickTrip(item)}
               />
             )}
             keyExtractor={(item) => item?.id}
           />
+          {active === 'real' &&  showRide && curRide && <ViewTrip item={curRide} />}
         </View>
       </SafeAreaView>
     </>

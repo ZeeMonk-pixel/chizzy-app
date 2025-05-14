@@ -1,19 +1,64 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GoBack from "@/components/go-back";
 import { BtnTrans } from "@/components/btn";
 import { useRouter } from "expo-router";
+import {
+  GoogleSignin, isSuccessResponse, isErrorWithCode, statusCodes
+} from '@react-native-google-signin/google-signin';
+import { AxiosPost } from "../api/axios";
 
 type Props = {};
 
 const SignupChoice = (props: Props) => {
+  const url = 'user/ValidateUser'
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
     const router = useRouter();
     const clickSignin = () => {
         router.push("/(auth)/signin");
     }
     const clickSocialSignup = () => {
         router.push("/(auth)/continue-signup");
+    }
+
+    const handleGoogleSignIn = async () => {
+      setIsLoading(true);
+      try {
+        await GoogleSignin.hasPlayServices();
+        const response = await GoogleSignin.signIn();
+        if(isSuccessResponse(response)){
+          const { idToken, user } = response.data;
+          const { name, email, photo } = user;
+          console.log(user.email);
+          
+          AxiosPost(url, {email: user.email, provider: 'gmail'}).then((res) => {
+            console.log(res);
+          }).catch((err) => {
+            console.log(err);
+          })
+          setIsLoading(false);
+        } else {
+          console.log('Google signin was cancelled');
+        }
+        
+      } catch (error) {
+        if(isErrorWithCode(error)){
+          switch (error.code) {
+            case statusCodes.IN_PROGRESS:
+              console.log("Google signin in progress");
+              break;
+              case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+                console.log("Google signin was cancelled");
+            default:
+              console.log(error.code);
+          }
+        } else {
+          console.log("An error occured");
+        }
+        setIsLoading(false);
+      }
     }
 
   return (
@@ -27,9 +72,11 @@ const SignupChoice = (props: Props) => {
           <BtnTrans
             text="Sign up with Gmail"
             logo={require("../../assets/images/Google.png")}
-            onPress={clickSocialSignup}
+            onPress={handleGoogleSignIn}
+            loading = {isLoading}
+            // disabled={!request}
           />
-          <BtnTrans
+          {/* <BtnTrans
             text="Sign up with Facebook"
             logo={require("../../assets/images/facebook.png")}
             onPress={clickSocialSignup}
@@ -43,7 +90,7 @@ const SignupChoice = (props: Props) => {
             text="Sign up with Twitter"
             logo={require("../../assets/images/Twitter.png")}
             onPress={clickSocialSignup}
-          />
+          /> */}
         </View>
         <View style={styles.btmCont}>
           <Text style={styles.btmText}>Already have an account? </Text>

@@ -9,13 +9,16 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.monkg.chizzy"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.monkg.chizzy"
     },
     "web": {
@@ -33,7 +36,10 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin", {
+        "iosUrlScheme" : "com.googleusercontent.apps.275445828891-pl1okvsb7993ec0dsm1k99gasaeasttr"
+      }]
     ],
     "experiments": {
       "typedRoutes": true

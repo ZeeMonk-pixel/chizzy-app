@@ -27,6 +27,8 @@ export const CustomInput = ({label, placeholder, type}: Props) => {
         placeholder={placeholder}
         keyboardType={type as KeyboardTypeOptions}
         placeholderTextColor="#E0DBD5"
+        multiline={false}
+        numberOfLines={1}
       />
     </View>
   )
@@ -43,6 +45,8 @@ export const CustomPhoneInput = ({label, placeholder}: Props) => {
         maxLength={10}
         keyboardType="numeric"
         placeholderTextColor="#E0DBD5"
+        multiline={false}
+        numberOfLines={1}
       />
       </View>
     </View>

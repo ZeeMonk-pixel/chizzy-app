@@ -7,7 +7,7 @@ type Props = {};
 const WalletLayout = (props: Props) => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <Stack
         screenOptions={{
           animation: "slide_from_right",

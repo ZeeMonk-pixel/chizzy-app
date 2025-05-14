@@ -19,31 +19,33 @@ type Props = {
   iconColor?: string;
   bgColor?: string;
   color?: string;
+  btnWidth?: boolean;
+  loading?: boolean;
 };
 
 
-export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color }: Props) => {
+export const Btn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color, btnWidth, loading }: Props) => {
   return (
-    <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1'}]} onPress={() => !disabled && onPress?.(id)}>
-      <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />
-      <Text style={styles.btnText}>{text}</Text>
+    <TouchableOpacity style={[styles.btnCont, {backgroundColor: disabled ? "#E1E1E1" : '#8441F1', width: btnWidth ? '45%' : '100%'}]} onPress={() => !disabled && onPress?.(id)}>
+      {!loading && <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />}
+      {loading ? <Image source={require('../assets/images/spin.gif')} style={{width: 40, height: 40}} /> : <Text style={styles.btnText}>{text}</Text>}
     </TouchableOpacity>
   );
 };
-export const RedBtn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color }: Props) => {
+export const RedBtn = ({ text, onPress, disabled, id, iconColor, iconName, iconSize, bgColor, color, loading }: Props) => {
   return (
     <TouchableOpacity style={[styles.btnContRed, {backgroundColor: disabled ? "#E1E1E1" : '#FFF5F5',}]} onPress={() => !disabled && onPress?.(id)}>
-      <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />
-      <Text style={[styles.btnRedText, {color: disabled ? 'white' : '#D31A1A'}]}>{text}</Text>
+      {!loading && <Ionicons name={iconName as keyof typeof Ionicons.glyphMap} size={iconSize} color={iconColor} />}
+      {loading ? <Image source={require('../assets/images/spin.gif')} style={{width: 40, height: 40}} /> : <Text style={[styles.btnRedText, {color: disabled ? 'white' : '#D31A1A'}]}>{text}</Text>}
     </TouchableOpacity>
   );
 };
 
-export const BtnTrans = ({ text, onPress, logo,disabled, id }: Props) => {
+export const BtnTrans = ({ text, onPress, logo,disabled, id, loading }: Props) => {
   return (
     <TouchableOpacity style={[styles.btnTsCont]} onPress={() => !disabled && onPress?.(id)}>
-      <Image source={logo} />
-      <Text style={styles.btnTsText}>{text}</Text>
+      {!loading && <Image source={logo} />}
+      {loading ? <Image source={require('../assets/images/spin.gif')} style={{width: 40, height: 40}} /> : <Text style={styles.btnTsText}>{text}</Text>}
     </TouchableOpacity>
   );
 };

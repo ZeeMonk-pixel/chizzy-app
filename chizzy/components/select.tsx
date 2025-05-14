@@ -27,6 +27,7 @@ type SelectProps = {
   placeholder: string;
   isLabel?: boolean;
   iconName?: string;
+  label?: string;
 };
 
 export default function Select({
@@ -36,6 +37,7 @@ export default function Select({
   placeholder,
   isLabel,
   iconName,
+  label
 }: SelectProps) {
   const [visible, setVisible] = useState(false);
 
@@ -110,6 +112,7 @@ export default function Select({
           ]}
           onPress={clickMenu}
         >
+          <Text style={styles.label}>{label}</Text>
           <Text
             style={[styles.placeholder, hasLabel && styles.labelPlaceholder]}
           >
@@ -149,6 +152,22 @@ export default function Select({
 }
 
 const styles = StyleSheet.create({
+label: {
+    fontFamily: 'Inter_600SemiBold',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: 12,
+    lineHeight: 16,
+    color: '#7D7D7D',
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 10,
+    position: 'absolute',
+    top: -10,
+    left: 8,
+    // borderColor: "red",
+    // borderWidth: 2,
+    zIndex: 2
+},
   container: {
     marginVertical: 8,
     alignItems: "flex-end",
@@ -161,6 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 20,
     paddingVertical: 30,
+    position: 'relative',
   },
   isLabelCont: {
     width: "100%",

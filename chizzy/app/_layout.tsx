@@ -24,13 +24,14 @@ export default function RootLayout() {
 
   
 
+  
+
   return (
     <>
     <RideProvider>
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
       />
       <Stack
         screenOptions={{

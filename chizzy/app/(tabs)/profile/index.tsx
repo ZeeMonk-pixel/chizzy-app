@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +11,8 @@ const Profile = (props: Props) => {
   const router = useRouter();
 
   return (
+    <>
+          <StatusBar barStyle="dark-content" />
     <SafeAreaView style={styles.profCont}>
       <View style={styles.profHeader}>
         <Text style={styles.profHeaderText}>Profile</Text>
@@ -40,6 +42,7 @@ const Profile = (props: Props) => {
         <Text style={styles.contactUsText}>Contact us <Text style={[styles.contactUsText, {color: '#8441F1'}]}>here</Text> for in case you have any complaints or support needs.</Text>
       </View>
     </SafeAreaView>
+    </>
   );
 };
 

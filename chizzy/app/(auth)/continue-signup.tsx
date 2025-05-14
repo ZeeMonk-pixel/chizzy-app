@@ -17,6 +17,9 @@ const ContinueSignup = (props: Props) => {
     if(active === 1){
       router.push("/(auth)/passenger");
     }
+    if(active === 2){
+      router.push("/(auth)/pilot/pilot");
+    }
   };
 
   return (

@@ -22,6 +22,9 @@ const AuthLayout = (props: Props) => {
         <Stack.Screen name="passenger" options={{ headerShown: false }} />
         <Stack.Screen name="instant-not" options={{ headerShown: false }} />
         <Stack.Screen name="complete-account" options={{ headerShown: false }} />
+        <Stack.Screen name="pilot/pilot" options={{ headerShown: false }} />
+        <Stack.Screen name="pilot/vehicle-details" options={{ headerShown: false }} />
+        <Stack.Screen name="pilot/acc-details" options={{ headerShown: false }} />
       </Stack>
     </>
   );

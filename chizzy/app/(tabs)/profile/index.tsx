@@ -1,47 +1,73 @@
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { deleteSecurely } from "@/utils/storage";
 
 type Props = {};
 
 const Profile = (props: Props) => {
-
   const router = useRouter();
+
+  const logout = () => {
+    deleteSecurely("userAppData");
+    router.replace("/(auth)/signin");
+  };
 
   return (
     <>
-          <StatusBar barStyle="dark-content" />
-    <SafeAreaView style={styles.profCont}>
-      <View style={styles.profHeader}>
-        <Text style={styles.profHeaderText}>Profile</Text>
-      </View>
-      <View style={styles.profHead}>
-        <View style={styles.profHeadPic}>
-          <Text style={styles.profHeadPicText}>EU</Text>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.profCont}>
+        <View style={styles.profHeader}>
+          <Text style={styles.profHeaderText}>Profile</Text>
         </View>
-        <Text style={styles.profTextName}>Eric Ubong</Text>
-        <Text style={styles.profTextEmail}>ericubong@email.con</Text>
-        <Text style={styles.profTextTrip}>35 Trips</Text>
-      </View>
-      <TouchableOpacity style={styles.nots} onPress={() => router.push('/profile/nots-pref')}>
-        <Ionicons name="notifications" color={"#8441F1"} size={20} />
-        <Text style={styles.notsText}>My routes & notification preference</Text>
-      </TouchableOpacity>
-      <View style={styles.lineBreak}></View>
-      <TouchableOpacity style={styles.terms}>
-        <Ionicons name="information-circle-outline" color={"#C2CCDE"} size={20} />
-        <Text style={styles.termsText}>Terms and Conditions</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.terms}>
-        <Ionicons name="log-out-outline" color={"#C2CCDE"} size={20} />
-        <Text style={styles.termsText}>Logout</Text>
-      </TouchableOpacity>
-      <View style={styles.contactUs}>
-        <Text style={styles.contactUsText}>Contact us <Text style={[styles.contactUsText, {color: '#8441F1'}]}>here</Text> for in case you have any complaints or support needs.</Text>
-      </View>
-    </SafeAreaView>
+        <View style={styles.profHead}>
+          <View style={styles.profHeadPic}>
+            <Text style={styles.profHeadPicText}>EU</Text>
+          </View>
+          <Text style={styles.profTextName}>Eric Ubong</Text>
+          <Text style={styles.profTextEmail}>ericubong@email.con</Text>
+          <Text style={styles.profTextTrip}>35 Trips</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.nots}
+          onPress={() => router.push("/profile/nots-pref")}
+        >
+          <Ionicons name="notifications" color={"#8441F1"} size={20} />
+          <Text style={styles.notsText}>
+            My routes & notification preference
+          </Text>
+        </TouchableOpacity>
+        <View style={styles.lineBreak}></View>
+        <TouchableOpacity style={styles.terms}>
+          <Ionicons
+            name="information-circle-outline"
+            color={"#C2CCDE"}
+            size={20}
+          />
+          <Text style={styles.termsText}>Terms and Conditions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.terms} onPress={logout}>
+          <Ionicons name="log-out-outline" color={"#C2CCDE"} size={20} />
+          <Text style={styles.termsText}>Logout</Text>
+        </TouchableOpacity>
+        <View style={styles.contactUs}>
+          <Text style={styles.contactUsText}>
+            Contact us{" "}
+            <Text style={[styles.contactUsText, { color: "#8441F1" }]}>
+              here
+            </Text>{" "}
+            for in case you have any complaints or support needs.
+          </Text>
+        </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -50,7 +76,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
   profCont: {
-    height: '100%'
+    height: "100%",
   },
   profHeader: {
     paddingVertical: 15,
@@ -119,62 +145,62 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
     borderRadius: 10,
     gap: 15,
-    width: '90%',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    width: "90%",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
     marginVertical: 10,
-    marginHorizontal: 'auto',
+    marginHorizontal: "auto",
     marginTop: 25,
   },
   notsText: {
-    fontFamily: 'Inter_600SemiBold',
-    fontStyle: 'normal',
+    fontFamily: "Inter_600SemiBold",
+    fontStyle: "normal",
     fontWeight: 600,
     fontSize: 14,
     lineHeight: 17,
-    color: '#3E4C6E',
+    color: "#3E4C6E",
   },
   lineBreak: {
-    width: '80%',
-    marginHorizontal: 'auto',
-    borderBottomColor: '#F2F2F2CC',
+    width: "80%",
+    marginHorizontal: "auto",
+    borderBottomColor: "#F2F2F2CC",
     borderBottomWidth: 1,
     marginTop: 20,
   },
   terms: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 20,
     gap: 10,
-    alignItems: 'center',
-    width: '80%',
-    marginHorizontal: 'auto',
-    borderBottomColor: '#F2F2F2CC',
-    borderBottomWidth: 1
+    alignItems: "center",
+    width: "80%",
+    marginHorizontal: "auto",
+    borderBottomColor: "#F2F2F2CC",
+    borderBottomWidth: 1,
   },
   termsText: {
-    fontFamily: 'Inter_500Medium',
-    fontStyle: 'normal',
+    fontFamily: "Inter_500Medium",
+    fontStyle: "normal",
     fontWeight: 500,
     fontSize: 14,
     lineHeight: 16,
-    color: '#3E4C6E',
+    color: "#3E4C6E",
   },
   contactUs: {
-    marginTop: 'auto',
-    width: '80%',
-    marginHorizontal: 'auto',
-    alignItems: 'center',
+    marginTop: "auto",
+    width: "80%",
+    marginHorizontal: "auto",
+    alignItems: "center",
     marginBottom: 40,
   },
   contactUsText: {
-    fontFamily: 'Inter_500Medium',
-    fontStyle: 'normal',
+    fontFamily: "Inter_500Medium",
+    fontStyle: "normal",
     fontWeight: 500,
     fontSize: 14,
     lineHeight: 16,
-    color: '#3E4C6E',
-    textAlign: 'center',
-    alignItems: 'center'
+    color: "#3E4C6E",
+    textAlign: "center",
+    alignItems: "center",
   },
 });

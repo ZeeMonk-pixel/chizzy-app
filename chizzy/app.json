@@ -37,9 +37,19 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      ["@react-native-google-signin/google-signin", {
-        "iosUrlScheme" : "com.googleusercontent.apps.275445828891-pl1okvsb7993ec0dsm1k99gasaeasttr"
-      }]
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.103868150846-vqphsrlnupdh19c8en6rhtdcdvp3o5g5"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

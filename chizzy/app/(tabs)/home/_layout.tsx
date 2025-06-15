@@ -1,10 +1,12 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
+import { useAuth } from "@/app/context/context";
 
 type Props = {};
 
 const HomeLayout = (props: Props) => {
+  
   return (
     <>
       <StatusBar barStyle="light-content" />

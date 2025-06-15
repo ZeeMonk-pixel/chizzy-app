@@ -8,20 +8,89 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Btn } from "@/components/btn";
-import Select, { SelectOption } from "@/components/select";
+import Select, { RoutesOption, RoutesStopOption, SelectOption } from "@/components/select";
 import { useRouter } from "expo-router";
+import { deleteSecurely, fetchSecurely } from "@/utils/storage";
+import { useToken, useUser } from "@/app/context/context";
+import { AxiosAuthGet } from "@/app/api/axios";
 
 type Props = {};
 
 const { width } = Dimensions.get("window");
 
 const Home = (props: Props) => {
+  const routesUrl = 'route/GetRoutes';
+  const routesStopUrl = 'stop/GetStopsWithRoute';
+  const { token } = useToken();
   const router = useRouter();
-  const [selected, setSelected] = useState<string | undefined>(undefined);
+  const [selected, setSelected] = useState<any>();
   const [selectedDes, setSelectedDes] = useState<string | undefined>(undefined);
   const [count, setCount] = useState(0);
+  const { userData, setUserData } = useUser();
+  const [ userRoutes, setUserRoutes ] = useState<RoutesOption[]>([]);
+  const [ userRoutesStop, setUserRoutesStop ] = useState<RoutesStopOption[]>([]);
+  // console.log(userRoutesStop);
+  
+  
+
+  const getUserData = async () => {
+    try {
+      const user = await fetchSecurely("userAppData");
+      // console.log(userData);
+      setUserData(user?.singleResult);
+    } catch (error) {
+      // console.log(error);
+      throw error;
+    }
+  };
+  const getRoutes = async () => {
+    try {
+      const routes = await AxiosAuthGet(routesUrl, token);
+      if(routes.statusCode === 403 || routes.statusCode === 401){
+            deleteSecurely("userAppData");
+            router.replace("/(auth)/signin");
+      }
+      setUserRoutes(routes?.result);
+      // console.log(routes);
+    } catch (error) {
+      // console.log(error);
+      throw error;
+    }
+  };
+  const getRoutesStop = async () => {
+    try {
+      const routesStop = await AxiosAuthGet(routesStopUrl, token);
+      // setUserRoutes(routes?.result);
+      // console.log(routesStop);
+    } catch (error) {
+      // console.log(error);
+      throw error;
+    }
+  };
+
+  const desOptions = async() => {
+    try {
+      const res = await AxiosAuthGet(`stop/GetStops?rid=${selected?.id}`, token);
+      setUserRoutesStop(res?.result)
+      console.log(res);
+      
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+
+  useEffect(() => {
+    getUserData();
+    getRoutes();
+    getRoutesStop();
+  }, []);
+
+  useEffect(() => {
+    desOptions();
+  }, [selected]);
 
   const increment = () => {
     setCount(count + 1);
@@ -32,72 +101,6 @@ const Home = (props: Props) => {
     }
   };
 
-  const optionsPickup: SelectOption[] = [
-    {
-      id: "1",
-      from: "Oshodi Bus Stop",
-      to: "to CMS Bus stop",
-      value: "Oshodi Bus Stop",
-    },
-    { id: "2", from: "Mile 2", to: "to Berger Bus stop", value: "Mile 2" },
-    {
-      id: "3",
-      from: "Ojota Bus stop",
-      to: "to Yaba Bus stop",
-      value: "Ojota Bus stop",
-    },
-    {
-      id: "4",
-      from: "Oshodi Bus Stop",
-      to: "to CMS Bus stop",
-      value: "Oshodi Bus Stop",
-    },
-    { id: "5", from: "Mile 2", to: "to Berger Bus stop", value: "Mile 2" },
-    {
-      id: "6",
-      from: "Ojota Bus stop",
-      to: "to Yaba Bus stop",
-      value: "Ojota Bus stop",
-    },
-  ];
-  const optionsDestination: SelectOption[] = [
-    {
-      id: "1",
-      to: "from Oshodi Bus Stop",
-      from: "CMS Bus stop",
-      value: "CMS Bus stop",
-    },
-    {
-      id: "2",
-      to: "from Mile 2",
-      from: "Berger Bus stop",
-      value: "Berger Bus stop",
-    },
-    {
-      id: "3",
-      to: "from Ojota Bus stop",
-      from: "Yaba Bus stop",
-      value: "Yaba Bus stop",
-    },
-    {
-      id: "4",
-      to: "from Oshodi Bus Stop",
-      from: "CMS Bus stop",
-      value: "CMS Bus stop",
-    },
-    {
-      id: "5",
-      to: "from Mile 2",
-      from: "Berger Bus stop",
-      value: "Berger Bus stop",
-    },
-    {
-      id: "6",
-      to: "to Ojota Bus stop",
-      from: "Yaba Bus stop",
-      value: "Yaba Bus stop",
-    },
-  ];
 
   return (
     <>
@@ -109,10 +112,10 @@ const Home = (props: Props) => {
           resizeMode="cover" // or 'contain', 'stretch', etc.
         >
           <View style={styles.homeHeader}>
-            <Text style={styles.headText}>Hello Ubong</Text>
+            <Text style={styles.headText}>Hello {userData?.userName}</Text>
             <View style={styles.walletView}>
               <Text style={styles.walletHead}>WALLET BALANCE</Text>
-              <Text style={styles.walletCash}>₦45,000</Text>
+              <Text style={styles.walletCash}>₦{userData?.walletBalance?.toLocaleString()}</Text>
             </View>
           </View>
         </ImageBackground>
@@ -140,15 +143,17 @@ const Home = (props: Props) => {
             )}
             <Select
               placeholder="Pick up bus-stop"
-              options={optionsPickup}
+              options={userRoutes}
               selectedValue={selected}
               onValueChange={setSelected}
-            />
+              isClick={true}
+              />
             <Select
               placeholder="Destination bus-stop"
-              options={optionsDestination}
+              options={userRoutesStop}
               selectedValue={selectedDes}
               onValueChange={setSelectedDes}
+              isClick={selected ? true : false}
             />
           </View>
           <View style={styles.seatChoiceCont}>

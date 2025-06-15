@@ -23,7 +23,7 @@ const CompleteAccount = (props: Props) => {
         </Text>
       </View>
       <View style={styles.completeBtn}>
-        <Btn text="Let's go" onPress={() => router.push("/(tabs)/home")} />
+        <Btn text="Let's go" onPress={() => router.replace("/(tabs)/home")} />
       </View>
     </SafeAreaView>
   );

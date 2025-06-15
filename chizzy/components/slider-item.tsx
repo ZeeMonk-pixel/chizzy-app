@@ -19,7 +19,7 @@ const SliderItem = (props: Props) => {
   const [pageCount, setPageCount] = useState(0);
   const router = useRouter();
   const clickSignin = () => {
-    router.push("/(auth)/signin");
+    router.replace("/(auth)/signin");
   };
 
   const clickNew = () => {
@@ -27,7 +27,7 @@ const SliderItem = (props: Props) => {
       setPageCount(pageCount + 1);
     }
     if (pageCount >= 2) {
-      router.push("/signup-choice");
+      router.replace("/signup-choice");
     }
   };
 

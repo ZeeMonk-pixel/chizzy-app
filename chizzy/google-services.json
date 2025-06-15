@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "275445828891",
-    "project_id": "chizzy-rides",
-    "storage_bucket": "chizzy-rides.firebasestorage.app"
+    "project_number": "747632930586",
+    "project_id": "chizzy-notifications",
+    "storage_bucket": "chizzy-notifications.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:275445828891:android:9e7222476ed22a209c97be",
+        "mobilesdk_app_id": "1:747632930586:android:2ad21f4ce8d1fe8a6146a3",
         "android_client_info": {
           "package_name": "com.monkg.chizzy"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "275445828891-fl1576onam9183fgkjm443cs3ruq7djp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.monkg.chizzy",
-            "certificate_hash": "c64d38e4eb112f3b6f60c83b9c16caca8f08cf7f"
-          }
-        },
-        {
-          "client_id": "275445828891-r6kqms4jjq04ts6kv3lfkra7ir5ludns.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAbLEyRzi8Rcu59EpX3o9l7o9YbuI5Js94"
+          "current_key": "AIzaSyBgTJMaCjsC5DZ1m_OUVKjUJneSeg9jiaA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "275445828891-r6kqms4jjq04ts6kv3lfkra7ir5ludns.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "275445828891-pl1okvsb7993ec0dsm1k99gasaeasttr.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.monkg.chizzy"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

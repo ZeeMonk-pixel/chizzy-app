@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GoBack from "@/components/go-back";
 import { BtnTrans } from "@/components/btn";
@@ -7,20 +7,18 @@ import { useRouter } from "expo-router";
 import {
   GoogleSignin, isSuccessResponse, isErrorWithCode, statusCodes
 } from '@react-native-google-signin/google-signin';
-import { AxiosPost } from "../api/axios";
+import { useAuth } from "../context/context";
+import { saveSecurely } from "@/utils/storage";
 
 type Props = {};
 
 const SignupChoice = (props: Props) => {
-  const url = 'user/ValidateUser'
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const { setAuthData } = useAuth();
+  const [errMsg, setErrMsg] = useState('');
     const router = useRouter();
     const clickSignin = () => {
         router.push("/(auth)/signin");
-    }
-    const clickSocialSignup = () => {
-        router.push("/(auth)/continue-signup");
     }
 
     const handleGoogleSignIn = async () => {
@@ -29,37 +27,37 @@ const SignupChoice = (props: Props) => {
         await GoogleSignin.hasPlayServices();
         const response = await GoogleSignin.signIn();
         if(isSuccessResponse(response)){
+          await saveSecurely('userAppData', response);
           const { idToken, user } = response.data;
-          const { name, email, photo } = user;
-          console.log(user.email);
-          
-          AxiosPost(url, {email: user.email, provider: 'gmail'}).then((res) => {
-            console.log(res);
-          }).catch((err) => {
-            console.log(err);
-          })
+          setAuthData({ idToken, user });
           setIsLoading(false);
+          router.replace("/(auth)/continue-signup");
+          // console.log(response);
+          
         } else {
-          console.log('Google signin was cancelled');
-        }
-        
+          setErrMsg('Google signin was cancelled');
+          setIsLoading(false);
+        }        
       } catch (error) {
+        console.log(error);
+        
         if(isErrorWithCode(error)){
           switch (error.code) {
             case statusCodes.IN_PROGRESS:
               console.log("Google signin in progress");
               break;
               case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-                console.log("Google signin was cancelled");
-            default:
-              console.log(error.code);
-          }
+                setErrMsg("Google signin was cancelled");
+                default:
+                  setErrMsg(error.code);
+                }
         } else {
-          console.log("An error occured");
+          setErrMsg("An error occured");
         }
         setIsLoading(false);
       }
     }
+    
 
   return (
     <SafeAreaView style={styles.signupChoice}>
@@ -76,6 +74,9 @@ const SignupChoice = (props: Props) => {
             loading = {isLoading}
             // disabled={!request}
           />
+        <Text style={{color: 'red'}}>
+          {errMsg}
+        </Text>
           {/* <BtnTrans
             text="Sign up with Facebook"
             logo={require("../../assets/images/facebook.png")}

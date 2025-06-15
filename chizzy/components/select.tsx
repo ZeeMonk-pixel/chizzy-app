@@ -16,16 +16,40 @@ export type SelectOption = {
   label?: string;
   value: string;
 };
+export type RoutesOption = {
+  id: string;
+  label?: string;
+  createdBy?: string;
+  dateCreated?: string;
+  maxAmt?: string;
+  routeName?: string;
+  stopName?: any;
+};
+export type RoutesStopOption = {
+  id: string;
+  label?: string;
+  amount?: string;
+  clusterId?: string;
+  createdBy?: string;
+  dateCreated?: string;
+  destinationName?: string;
+  status?: string;
+  routeName?: string;
+  routeId?: string;
+  stopName?: string;
+};
 type SingleItemProps = {
-  item: SelectOption;
+  item: RoutesOption | RoutesStopOption;
 };
 
 type SelectProps = {
-  options: SelectOption[];
-  selectedValue?: string;
-  onValueChange: (value: string) => void;
+  options: RoutesOption[] | RoutesStopOption[];
+  selectedValue?: any;
+  onValueChange: (value?: any) => void;
+  clickMenuFunc?: (value?: string) => void;
   placeholder: string;
   isLabel?: boolean;
+  isClick?: boolean;
   iconName?: string;
   label?: string;
 };
@@ -37,34 +61,39 @@ export default function Select({
   placeholder,
   isLabel,
   iconName,
-  label
+  label,
+  isClick,
+  clickMenuFunc
 }: SelectProps) {
   const [visible, setVisible] = useState(false);
 
-  const clickMenu = () => setVisible(!visible);
+  const clickMenu = () => isClick && setVisible(!visible);
 
-  const handleSelect = (value: string) => {
+  const handleSelect = async(value?: any) => {
     onValueChange(value);
     clickMenu();
+    if(clickMenuFunc){
+      clickMenuFunc(value);
+    }
   };
 
   const SingleItem = ({ item }: SingleItemProps) => {
     return (
       <TouchableOpacity
         style={styles.selectOptions}
-        onPress={() => handleSelect(item?.value)}
+        onPress={() => handleSelect(item)}
       >
-        {item?.from && (
-          <Text style={styles.selectOptionsFrom}>{item?.from}</Text>
+        {item && (
+          <Text style={styles.selectOptionsFrom}>{item?.routeName?.split("-")[0].trim() || item?.stopName?.split("-")[0].trim()}</Text>
         )}
         {item?.label && (
           <Text style={styles.selectOptionsFrom}>{item?.label}</Text>
         )}
-        {item?.to && <Text style={styles.selectOptionsTo}>{item?.to}</Text>}
+        {item && <Text style={styles.selectOptionsTo}>{item?.routeName?.split("-")[1].trim()}</Text>}
       </TouchableOpacity>
     );
   };
-  const hasLabel = options.some((item) => !!item.label);
+  const hasLabel = options?.some((item) => !!item.label);
 
   return (
     <View style={styles.container}>
@@ -116,7 +145,7 @@ export default function Select({
           <Text
             style={[styles.placeholder, hasLabel && styles.labelPlaceholder]}
           >
-            {!selectedValue ? placeholder : selectedValue}
+            {!selectedValue ? placeholder : selectedValue?.stopName || selectedValue?.routeName}
           </Text>
           {!visible && (
             <Ionicons

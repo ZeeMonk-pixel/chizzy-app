@@ -15,13 +15,14 @@ import { useRouter } from "expo-router";
 import { deleteSecurely, fetchSecurely } from "@/utils/storage";
 import { useToken, useUser } from "@/app/context/context";
 import { AxiosAuthGet } from "@/app/api/axios";
+import { usePathname } from "expo-router";
 
 type Props = {};
 
 const { width } = Dimensions.get("window");
 
 const Home = (props: Props) => {
-  const routesUrl = 'route/GetRoutes';
+  const routesUrl = 'route/GetActiveRoutes';
   const routesStopUrl = 'stop/GetStopsWithRoute';
   const { token } = useToken();
   const router = useRouter();
@@ -31,7 +32,8 @@ const Home = (props: Props) => {
   const { userData, setUserData } = useUser();
   const [ userRoutes, setUserRoutes ] = useState<RoutesOption[]>([]);
   const [ userRoutesStop, setUserRoutesStop ] = useState<RoutesStopOption[]>([]);
-  // console.log(userRoutesStop);
+  const pathname = usePathname();
+  // console.log(pathname);
   
   
 
@@ -48,7 +50,7 @@ const Home = (props: Props) => {
   const getRoutes = async () => {
     try {
       const routes = await AxiosAuthGet(routesUrl, token);
-      if(routes.statusCode === 403 || routes.statusCode === 401){
+      if(routes.statusCode === 401){
             deleteSecurely("userAppData");
             router.replace("/(auth)/signin");
       }
@@ -74,7 +76,7 @@ const Home = (props: Props) => {
     try {
       const res = await AxiosAuthGet(`stop/GetStops?rid=${selected?.id}`, token);
       setUserRoutesStop(res?.result)
-      console.log(res);
+      // console.log(res);
       
     } catch (error) {
       throw error;
@@ -86,7 +88,7 @@ const Home = (props: Props) => {
     getUserData();
     getRoutes();
     getRoutesStop();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     desOptions();

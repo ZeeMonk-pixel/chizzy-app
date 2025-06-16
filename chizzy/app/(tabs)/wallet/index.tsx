@@ -13,12 +13,14 @@ import PaymentCard, { EachHist } from "@/components/payment-card";
 import PayCard from "@/components/pay-card";
 import { Overlay } from "@/components/utils";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "@/app/context/context";
 
 type Props = {};
 
 const Wallet = (props: Props) => {
   const navigation = useNavigation();
   const [openWalletModal, setOpenWalletModal] = useState(false);
+  const { userData } = useUser();
   const payHistArr: EachHist[] = [
     {
       id: "1",
@@ -68,19 +70,18 @@ const Wallet = (props: Props) => {
     if (openWalletModal) {
       navigation.getParent()?.setOptions({ tabBarStyle: { display: "none" } });
     } else {
-      navigation
-        .getParent()
-        ?.setOptions({
-          tabBarStyle: {
-            display: "flex",
-            backgroundColor: "#FFFFFF",
-            borderTopColor: "#232533",
-            height: 97,
-            paddingTop: 15,
-          },
-        });
+      navigation.getParent()?.setOptions({
+        tabBarStyle: {
+          display: "flex",
+          backgroundColor: "#FFFFFF",
+          borderTopColor: "#232533",
+          height: 97,
+          paddingTop: 15,
+        },
+      });
     }
   }, [openWalletModal]);
+
 
   return (
     <>
@@ -95,10 +96,16 @@ const Wallet = (props: Props) => {
             <Text style={styles.headText}>My Wallet</Text>
             <View style={styles.walletCont}>
               <Text style={styles.walletBal}>Wallet Balance</Text>
-              <Text style={styles.walletText}>₦45,000</Text>
+              <Text style={styles.walletText}>
+                ₦{userData?.walletBalance?.toLocaleString()}
+              </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.walBtnCont} activeOpacity={1} onPress={clickWallet}>
+          <TouchableOpacity
+            style={styles.walBtnCont}
+            activeOpacity={1}
+            onPress={clickWallet}
+          >
             <Ionicons name={"wallet"} size={24} color={"#3E4C6E"} />
             <Text style={styles.walBtn}>Wallet top up</Text>
           </TouchableOpacity>

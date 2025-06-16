@@ -18,6 +18,7 @@ export type SelectOption = {
 };
 export type RoutesOption = {
   id: string;
+  provider?: string;
   label?: string;
   createdBy?: string;
   dateCreated?: string;
@@ -26,6 +27,7 @@ export type RoutesOption = {
   stopName?: any;
 };
 export type RoutesStopOption = {
+  provider?: string;
   id: string;
   label?: string;
   amount?: string;
@@ -86,7 +88,7 @@ export default function Select({
         {item && (
           <Text style={styles.selectOptionsFrom}>{item?.routeName?.split("-")[0].trim() || item?.stopName?.split("-")[0].trim()}</Text>
         )}
-        {item?.label && (
+        {item && (
           <Text style={styles.selectOptionsFrom}>{item?.label}</Text>
         )}
         {item && <Text style={styles.selectOptionsTo}>{item?.routeName?.split("-")[1].trim()}</Text>}

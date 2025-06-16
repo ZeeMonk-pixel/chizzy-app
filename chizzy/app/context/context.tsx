@@ -31,7 +31,7 @@ type RideContextType = {
 
 type AuthContextType = {
   authData?: AuthData | null;
-  setAuthData: (data: AuthData) => void;
+  setAuthData: (data: AuthData | null) => void;
 };
 
 type UserContextType = {

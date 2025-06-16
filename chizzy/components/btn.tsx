@@ -21,6 +21,7 @@ type Props = {
   color?: string;
   btnWidth?: boolean;
   loading?: boolean;
+  error?: string;
 };
 
 
@@ -41,12 +42,15 @@ export const RedBtn = ({ text, onPress, disabled, id, iconColor, iconName, iconS
   );
 };
 
-export const BtnTrans = ({ text, onPress, logo,disabled, id, loading }: Props) => {
+export const BtnTrans = ({ text, onPress, logo,disabled, id, loading, error }: Props) => {
   return (
+    <>
     <TouchableOpacity style={[styles.btnTsCont]} onPress={() => !disabled && onPress?.(id)} activeOpacity={1}>
       {!loading && <Image source={logo} />}
       {loading ? <Image source={require('../assets/images/spin.gif')} style={{width: 40, height: 40}} /> : <Text style={styles.btnTsText}>{text}</Text>}
     </TouchableOpacity>
+    {error && <Text style={{color: 'red', fontSize: 12}}>{error}</Text>}
+    </>
   );
 };
 

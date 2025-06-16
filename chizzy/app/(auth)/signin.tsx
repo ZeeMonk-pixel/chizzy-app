@@ -1,18 +1,102 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GoBack from "@/components/go-back";
 import { BtnTrans } from "@/components/btn";
 import { useRouter } from "expo-router";
+import {
+  GoogleSignin,
+  isSuccessResponse,
+  isErrorWithCode,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { useAuth, useToken, useUser } from "../context/context";
+import { saveSecurely } from "@/utils/storage";
+import { AxiosPost } from "../api/axios";
 
 type Props = {};
 
 const Signin = (props: Props) => {
+  const url = "user/ValidateUser";
+  const [isLoading, setIsLoading] = useState(false);
+  const { authData, setAuthData } = useAuth();
+  const [errMsg, setErrMsg] = useState("");
+  const { setToken } = useToken()
+  const { setUserData } = useUser();
 
-    const router = useRouter();
-    const clickSignup = () => {
-        router.push("/(auth)/signup-choice");
+  const router = useRouter();
+  const clickSignup = () => {
+    router.push("/(auth)/signup-choice");
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      if (isSuccessResponse(response)) {
+        // await saveSecurely("userAppData", response);
+        const { idToken, user } = response.data;
+        setAuthData({ idToken, user });
+        setIsLoading(false);
+        // console.log(response);
+      } else {
+        setErrMsg("Google signin was cancelled");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log("Google signin in progress");
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            setErrMsg("Google signin was cancelled");
+          default:
+            setErrMsg(error.code);
+        }
+      } else {
+        setErrMsg("An error occured");
+      }
+      setIsLoading(false);
     }
+  };
+
+  const dataObj = {
+    email: authData?.user?.email,
+    provider: "gmail",
+  };
+
+  const signIn = async () => {
+    setIsLoading(true);
+    // console.log(dataObj);
+    try {
+      const res = await AxiosPost(url, dataObj);
+      if (res.statusCode === 200) {
+        await saveSecurely("userAppData", res);
+        setUserData(res);
+        setToken(res?.token)
+        router.replace("/(tabs)/home");
+      } else {
+        console.log("API error:", res);
+        await GoogleSignin.signOut();
+        setErrMsg(res.message);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      // console.log(error);3
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (authData) {
+      signIn();
+    }
+  }, [authData]);
 
   return (
     <SafeAreaView style={styles.signupChoice}>
@@ -25,8 +109,11 @@ const Signin = (props: Props) => {
           <BtnTrans
             text="Sign in with Gmail"
             logo={require("../../assets/images/Google.png")}
+            onPress={handleGoogleSignIn}
+            loading={isLoading}
+            error={errMsg}
           />
-          <BtnTrans
+          {/* <BtnTrans
             text="Sign in with Facebook"
             logo={require("../../assets/images/facebook.png")}
           />
@@ -37,7 +124,7 @@ const Signin = (props: Props) => {
           <BtnTrans
             text="Sign in with Twitter"
             logo={require("../../assets/images/Twitter.png")}
-          />
+          /> */}
         </View>
         <View style={styles.btmCont}>
           <Text style={styles.btmText}>Don't have an account? </Text>
@@ -61,7 +148,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   signupText: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: "Inter_600SemiBold",
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: 24,
@@ -77,10 +164,10 @@ const styles = StyleSheet.create({
   btmCont: {
     flexDirection: "row",
     paddingVertical: 50,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   btmText: {
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 16,
@@ -89,7 +176,7 @@ const styles = StyleSheet.create({
     color: "#5A5A5A",
   },
   spanText: {
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 16,

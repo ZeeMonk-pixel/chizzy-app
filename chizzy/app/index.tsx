@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SliderItem from '@/components/slider-item';
 import {
   GoogleSignin,
@@ -13,6 +13,7 @@ const Index = () => {
    const { notification, expoPushToken, error } = useNotification();
    const router = useRouter();
    const { token, setToken } = useToken()
+   const [isLoading, setIsLoading] = useState(false);
 
   if (error) {
     console.log(error);
@@ -30,11 +31,15 @@ const Index = () => {
   }, []);
 
   const getAuthToken = async() => {
+    setIsLoading(true);
     try {
       const userData = await fetchSecurely('userAppData');
       setToken(userData?.token);
+      setIsLoading(false);
+      
     } catch (error) {
       // console.log(error);
+      setIsLoading(false);
       throw error;
     }
 
@@ -44,10 +49,14 @@ const Index = () => {
     getAuthToken();
 
   }, []);
+  
 
   useEffect(() => {
-    if (token !== null){
+    if (token != null){
       router.replace("/(tabs)/home");
+      // console.log('token is valid');
+    } else {
+      // console.log('token is null');
     }
   }, [token]);
 

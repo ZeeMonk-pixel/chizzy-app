@@ -1,17 +1,23 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomInput } from "./utils";
 import { Btn } from "./btn";
 import Select, { SelectOption } from "./select";
 import { useRouter } from "expo-router";
+import { useToken } from "@/app/context/context";
+import { AxiosAuthGet } from "@/app/api/axios";
 
 type Props = {
   onPress: () => void;
 };
 
 const PayCard = ({ onPress }: Props) => {
-    const router = useRouter();
+  const router = useRouter();
   const [selected, setSelected] = useState<string | undefined>(undefined);
+  const getPaymentOptionsUrl = "payopt/GetActivePaymentOptions";
+  const { token } = useToken();
+  const [isLoading, setIsLoading] = useState(false);
+  const [payOptions, setPayOptions] = useState([]);
   const options: SelectOption[] = [
     {
       id: "1",
@@ -19,6 +25,27 @@ const PayCard = ({ onPress }: Props) => {
       value: "Paystack",
     },
   ];
+
+  const getPayOpts = async () => {
+    setIsLoading(true);
+    try {
+      const res = await AxiosAuthGet(getPaymentOptionsUrl, token);
+      console.log(res);
+      const modified = res.map((item: any) => ({
+        ...item,
+        label: "..", // add or overwrite label
+      }));
+      setPayOptions(modified);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    getPayOpts();
+  }, []);
 
   return (
     <View style={styles.payCardCont}>
@@ -43,10 +70,15 @@ const PayCard = ({ onPress }: Props) => {
           options={options}
           selectedValue={selected}
           onValueChange={setSelected}
+          isClick
+          isLabel={false}
         />
       </View>
       <View style={styles.payCardBtn}>
-        <Btn text="Continue payment" onPress={() => router.push('/(tabs)/wallet/payment-receipt')} />
+        <Btn
+          text="Continue payment"
+          onPress={() => router.push("/(tabs)/wallet/payment-receipt")}
+        />
       </View>
     </View>
   );

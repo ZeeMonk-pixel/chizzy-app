@@ -10,15 +10,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { deleteSecurely } from "@/utils/storage";
+import { useAuth } from "@/app/context/context";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 type Props = {};
 
 const Profile = (props: Props) => {
   const router = useRouter();
+    const { setAuthData } = useAuth();
 
-  const logout = () => {
-    deleteSecurely("userAppData");
-    router.replace("/(auth)/signin");
+  const logout = async () => {
+    try {
+      await GoogleSignin.signOut();
+      deleteSecurely("userAppData");
+      setAuthData(null);
+      router.replace("/(auth)/signin");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

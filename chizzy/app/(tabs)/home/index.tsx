@@ -10,32 +10,33 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Btn } from "@/components/btn";
-import Select, { RoutesOption, RoutesStopOption, SelectOption } from "@/components/select";
+import Select, {
+  RoutesOption,
+  RoutesStopOption,
+} from "@/components/select";
 import { useRouter } from "expo-router";
 import { deleteSecurely, fetchSecurely } from "@/utils/storage";
 import { useToken, useUser } from "@/app/context/context";
 import { AxiosAuthGet } from "@/app/api/axios";
-import { usePathname } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 type Props = {};
 
 const { width } = Dimensions.get("window");
 
 const Home = (props: Props) => {
-  const routesUrl = 'route/GetActiveRoutes';
-  const routesStopUrl = 'stop/GetStopsWithRoute';
+  const routesUrl = "route/GetActiveRoutes";
+  const routesStopUrl = "stop/GetStopsWithRoute";
   const { token } = useToken();
   const router = useRouter();
   const [selected, setSelected] = useState<any>();
   const [selectedDes, setSelectedDes] = useState<string | undefined>(undefined);
   const [count, setCount] = useState(0);
   const { userData, setUserData } = useUser();
-  const [ userRoutes, setUserRoutes ] = useState<RoutesOption[]>([]);
-  const [ userRoutesStop, setUserRoutesStop ] = useState<RoutesStopOption[]>([]);
-  const pathname = usePathname();
-  // console.log(pathname);
-  
-  
+  const [userRoutes, setUserRoutes] = useState<RoutesOption[]>([]);
+  const [userRoutesStop, setUserRoutesStop] = useState<RoutesStopOption[]>([]);
+  const isFocused = useIsFocused();
 
   const getUserData = async () => {
     try {
@@ -50,10 +51,6 @@ const Home = (props: Props) => {
   const getRoutes = async () => {
     try {
       const routes = await AxiosAuthGet(routesUrl, token);
-      if(routes.statusCode === 401){
-            deleteSecurely("userAppData");
-            router.replace("/(auth)/signin");
-      }
       setUserRoutes(routes?.result);
       // console.log(routes);
     } catch (error) {
@@ -61,10 +58,26 @@ const Home = (props: Props) => {
       throw error;
     }
   };
+
+  const verifyTokenWithRoutes = () => {
+    AxiosAuthGet(routesUrl, token)
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((err) => {
+        // console.log(err);
+        if (err) {
+          GoogleSignin.signOut();
+          deleteSecurely("userAppData");
+          router.replace("/(auth)/signin");
+        }
+      });
+  };
+
   const getRoutesStop = async () => {
     try {
       const routesStop = await AxiosAuthGet(routesStopUrl, token);
-      // setUserRoutes(routes?.result);
+      setUserRoutes(routesStop?.result);
       // console.log(routesStop);
     } catch (error) {
       // console.log(error);
@@ -72,23 +85,28 @@ const Home = (props: Props) => {
     }
   };
 
-  const desOptions = async() => {
+  const desOptions = async () => {
     try {
-      const res = await AxiosAuthGet(`stop/GetStops?rid=${selected?.id}`, token);
-      setUserRoutesStop(res?.result)
+      const res = await AxiosAuthGet(
+        `stop/GetStops?rid=${selected?.id}`,
+        token
+      );
+      setUserRoutesStop(res?.result);
       // console.log(res);
-      
     } catch (error) {
       throw error;
     }
-  }
-  
+  };
 
   useEffect(() => {
     getUserData();
     getRoutes();
     getRoutesStop();
-  }, [pathname]);
+  }, []);
+
+  useEffect(() => {
+    verifyTokenWithRoutes();
+  }, [isFocused]);
 
   useEffect(() => {
     desOptions();
@@ -103,7 +121,6 @@ const Home = (props: Props) => {
     }
   };
 
-
   return (
     <>
       <StatusBar barStyle="light-content" />
@@ -117,7 +134,9 @@ const Home = (props: Props) => {
             <Text style={styles.headText}>Hello {userData?.userName}</Text>
             <View style={styles.walletView}>
               <Text style={styles.walletHead}>WALLET BALANCE</Text>
-              <Text style={styles.walletCash}>₦{userData?.walletBalance?.toLocaleString()}</Text>
+              <Text style={styles.walletCash}>
+                ₦{userData?.walletBalance?.toLocaleString()}
+              </Text>
             </View>
           </View>
         </ImageBackground>
@@ -149,7 +168,7 @@ const Home = (props: Props) => {
               selectedValue={selected}
               onValueChange={setSelected}
               isClick={true}
-              />
+            />
             <Select
               placeholder="Destination bus-stop"
               options={userRoutesStop}

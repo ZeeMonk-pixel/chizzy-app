@@ -12,8 +12,7 @@ import { useToken } from './context/context';
 const Index = () => {
    const { notification, expoPushToken, error } = useNotification();
    const router = useRouter();
-   const { token, setToken } = useToken()
-   const [isLoading, setIsLoading] = useState(false);
+   const { token, setToken } = useToken();
 
   if (error) {
     console.log(error);
@@ -31,15 +30,13 @@ const Index = () => {
   }, []);
 
   const getAuthToken = async() => {
-    setIsLoading(true);
     try {
       const userData = await fetchSecurely('userAppData');
       setToken(userData?.token);
-      setIsLoading(false);
+      // console.log(userData);
       
     } catch (error) {
       // console.log(error);
-      setIsLoading(false);
       throw error;
     }
 

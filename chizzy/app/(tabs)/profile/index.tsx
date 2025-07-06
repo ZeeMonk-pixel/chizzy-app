@@ -5,19 +5,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { deleteSecurely } from "@/utils/storage";
-import { useAuth } from "@/app/context/context";
+import { useAuth, useToken, useUser } from "@/app/context/context";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { AxiosAuthGet } from "@/app/api/axios";
 
 type Props = {};
 
 const Profile = (props: Props) => {
   const router = useRouter();
-    const { setAuthData } = useAuth();
+  const { setAuthData } = useAuth();
+  const { userData } = useUser();
+  const { token } = useToken();
+  const [tripCount, setTripCount] = useState<any>({});
+  const getTripCountUrl = `usertrip/GetUserTripCount?uid=${userData?.id}`;
+
+  const getTripCount = async () => {
+    try {
+      const trip = await AxiosAuthGet(getTripCountUrl, token);
+      // console.log(trip);
+      setTripCount(trip);
+    } catch (error) {
+      throw error
+    }
+  };
 
   const logout = async () => {
     try {
@@ -30,6 +45,10 @@ const Profile = (props: Props) => {
     }
   };
 
+  useEffect(() => {
+    getTripCount();
+  }, [])
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -39,11 +58,11 @@ const Profile = (props: Props) => {
         </View>
         <View style={styles.profHead}>
           <View style={styles.profHeadPic}>
-            <Text style={styles.profHeadPicText}>EU</Text>
+            <Text style={styles.profHeadPicText}>{userData?.initials}</Text>
           </View>
-          <Text style={styles.profTextName}>Eric Ubong</Text>
-          <Text style={styles.profTextEmail}>ericubong@email.con</Text>
-          <Text style={styles.profTextTrip}>35 Trips</Text>
+          <Text style={styles.profTextName}>{userData?.userName}</Text>
+          <Text style={styles.profTextEmail}>{userData?.email}</Text>
+          <Text style={styles.profTextTrip}>{tripCount?.count} Trips</Text>
         </View>
         <TouchableOpacity
           style={styles.nots}

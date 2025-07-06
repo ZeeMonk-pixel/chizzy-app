@@ -18,6 +18,7 @@ import { useUser } from "@/app/context/context";
 type Props = {};
 
 const Wallet = (props: Props) => {
+  const url = "payopt/CreatePaymentOption";
   const navigation = useNavigation();
   const [openWalletModal, setOpenWalletModal] = useState(false);
   const { userData } = useUser();
@@ -58,6 +59,25 @@ const Wallet = (props: Props) => {
       amount: "₦27,000",
     },
   ];
+  const date = new Date();
+  const isoDate = date.toISOString();
+  // console.log(userData);
+  
+
+  const paymentObj = {
+    id: "string",
+    provider: "string",
+    status: 1,
+    dateCreated: "2025-06-18T10:02:44.403Z",
+    createdBy: "string",
+  };
+
+  const createPayment = async () => {
+    try {
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const clickWallet = () => {
     setOpenWalletModal(true);
@@ -81,7 +101,6 @@ const Wallet = (props: Props) => {
       });
     }
   }, [openWalletModal]);
-
 
   return (
     <>
